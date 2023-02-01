@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Vector3.Project(rb.velocity, dir).magnitude < speed) {
-            //rb.AddForce(dir * speed * Time.deltaTime, ForceMode.VelocityChange);
             rb.velocity = Vector3.Lerp(rb.velocity, dir * speed * Time.deltaTime, turnSpeed);
         }
 
