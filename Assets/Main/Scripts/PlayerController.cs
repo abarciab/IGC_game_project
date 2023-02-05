@@ -29,25 +29,32 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        LerpToZZeroRot();
+        
         
         Vector3 dir = GetInputDir();
         if (dir == Vector3.zero) {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, friction);
         }
 
-        if (Vector3.Project(rb.velocity, dir).magnitude < speed) {
-            rb.velocity = Vector3.Lerp(rb.velocity, dir * speed * Time.deltaTime, turnSpeed);
+        else if (Vector3.Project(rb.velocity, dir).magnitude < (speed * 1000)) {
+            rb.velocity = Vector3.Lerp(rb.velocity, dir * (speed * 1000) * Time.deltaTime, turnSpeed);
         }
 
         rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, Vector3.zero, 0.05f);
+        LerpToZZeroRot();
+
         if (!GameManager.instance.oceanSurface) return;
         if (transform.position.y > GameManager.instance.oceanSurface.transform.position.y + surfaceOffset) transform.position = new Vector3(transform.position.x, GameManager.instance.oceanSurface.transform.position.y + surfaceOffset, transform.position.z);
     }
 
     void LerpToZZeroRot()
     {
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0);
+        var desired = transform.localEulerAngles;
+        desired.z %= 360;
+        if (desired.z > 180) desired.z = 360;
+        else if (desired.z < -180) desired.z = -360;
+        else desired.z = 0;
+        transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, desired, friction);
     }
 
     Vector3 GetInputDir()
@@ -58,12 +65,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) {
             return -1 * transform.forward;
         }
-        if (Input.GetKey(KeyCode.A)) {
+        /*if (Input.GetKey(KeyCode.A)) {
             return transform.right * -1;
         }
         if (Input.GetKey(KeyCode.D)) {
             return transform.right;
-        }
+        }*/
         return Vector3.zero;
     }
 
