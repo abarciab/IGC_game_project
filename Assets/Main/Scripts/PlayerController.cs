@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         }
 
         rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, Vector3.zero, 0.05f);
+        if (!GameManager.instance.oceanSurface) return;
         if (transform.position.y > GameManager.instance.oceanSurface.transform.position.y + surfaceOffset) transform.position = new Vector3(transform.position.x, GameManager.instance.oceanSurface.transform.position.y + surfaceOffset, transform.position.z);
     }
 

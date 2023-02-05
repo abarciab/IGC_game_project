@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
         camParent.transform.rotation = player.transform.rotation;
         camParent.transform.localEulerAngles = new Vector3(camParent.transform.localEulerAngles.x, camParent.transform.localEulerAngles.y, 0);
 
-        if (GameManager.instance != null) underwaterPP.enabled = transform.position.y < GameManager.instance.oceanSurface.transform.position.y; 
+        if (GameManager.instance.oceanSurface) underwaterPP.enabled = transform.position.y < GameManager.instance.oceanSurface.transform.position.y; 
     }
 
 }
