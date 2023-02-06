@@ -65,12 +65,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) {
             return -1 * transform.forward;
         }
-        /*if (Input.GetKey(KeyCode.A)) {
-            return transform.right * -1;
-        }
-        if (Input.GetKey(KeyCode.D)) {
-            return transform.right;
-        }*/
         return Vector3.zero;
     }
 

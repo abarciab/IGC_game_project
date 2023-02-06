@@ -20,14 +20,12 @@ public class CameraController : MonoBehaviour
         camParent.transform.position =  Vector3.Lerp(camParent.transform.position, player.transform.position, posSmoothness);
         transform.LookAt(camTarget.transform);
 
-        //camParent.transform.rotation = player.transform.rotation;
         float horizontal = input.x;
         float vertical = input.y;
         horizontal = player.transform.eulerAngles.y;
         vertical = player.transform.eulerAngles.x;
 
         camParent.transform.rotation = Quaternion.Lerp(camParent.transform.rotation, Quaternion.Euler(vertical, horizontal, 0), rotSmoothness);
-        //camParent.transform.localEulerAngles = new Vector3(camParent.transform.localEulerAngles.x, camParent.transform.localEulerAngles.y, 0);
 
         if (!Application.isPlaying) return;
         if (GameManager.instance.oceanSurface) underwaterPP.enabled = transform.position.y < GameManager.instance.oceanSurface.transform.position.y; 
