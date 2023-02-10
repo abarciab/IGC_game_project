@@ -4193,6 +4193,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 84
   m_LocalEulerAnglesHint: {x: 0, y: 39.777, z: 0}
+--- !u!1 &338343016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338343017}
+  m_Layer: 0
+  m_Name: PrimaryChains
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &338343017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338343016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 49.96, y: -0.27, z: -100.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1200632303}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &341923653
 GameObject:
   m_ObjectHideFlags: 0
@@ -4987,7 +5018,7 @@ GameObject:
   - component: {fileID: 412485496}
   - component: {fileID: 412485495}
   m_Layer: 0
-  m_Name: BottomPulleyDome
+  m_Name: PulleyDome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5295,7 +5326,7 @@ GameObject:
   - component: {fileID: 436080175}
   - component: {fileID: 436080174}
   m_Layer: 0
-  m_Name: BottomPulleyCube
+  m_Name: PulleyCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7536,7 +7567,7 @@ GameObject:
   - component: {fileID: 607155039}
   - component: {fileID: 607155038}
   m_Layer: 0
-  m_Name: BottomPulleyCube
+  m_Name: PulleyCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14925,6 +14956,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68e3cabc65dcb741b39c19d7b815dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pulleyTop: {fileID: 1659451829}
+  pulleyBottom: {fileID: 1708363240}
+  primaryChainsWrapper: {fileID: 338343016}
+  pulleyLinkPrefab: {fileID: 7210198303284929744, guid: a9d62e8c2914b4344858943b7cbbb68e, type: 3}
+  chainMoveSpeed: 0.05
+  chainLength: 5
+  chainList: []
+  chainCount: 0
 --- !u!4 &1200632303
 Transform:
   m_ObjectHideFlags: 0
@@ -14933,12 +14972,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200632301}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -41.970848, y: -8.557944, z: 105.03388}
+  m_LocalPosition: {x: -41.970848, y: -4.61, z: 105.03388}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1708363241}
   - {fileID: 1659451830}
+  - {fileID: 1708363241}
+  - {fileID: 338343017}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15945,7 +15985,7 @@ GameObject:
   - component: {fileID: 1297516187}
   - component: {fileID: 1297516186}
   m_Layer: 0
-  m_Name: BottomPulleyDome
+  m_Name: PulleyDome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19683,14 +19723,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659451829}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50, y: 10, z: -100}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 50, y: 17, z: -100}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 412485494}
   - {fileID: 436080173}
   m_Father: {fileID: 1200632303}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1675282061
 PrefabInstance:
@@ -20418,14 +20458,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708363240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50, y: 0, z: -100}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 50, y: -1.4, z: -100}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1297516185}
   - {fileID: 607155037}
   m_Father: {fileID: 1200632303}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1717751406
 GameObject:
