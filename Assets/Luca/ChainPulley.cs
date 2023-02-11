@@ -14,10 +14,9 @@ public class ChainPulley : MonoBehaviour
     [SerializeField]
     float chainLength = 5f;
     [SerializeField]
-    private List<GameObject> chainList = new List<GameObject>();
-
-    [SerializeField]
     float chainCount = 0;
+
+    private List<GameObject> chainList = new List<GameObject>();
     int nameCounter = 0;
     IEnumerator coroutine;
 
@@ -25,7 +24,6 @@ public class ChainPulley : MonoBehaviour
     void Start()
     {
         InitChains();
-        Activate();
     }
 
     // Update is called once per frame

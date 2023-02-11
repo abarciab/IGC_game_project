@@ -6,36 +6,43 @@ public class Button : MonoBehaviour
 {
     Rigidbody rb;
     float initZScale;
+    bool activated = false;
 
     [SerializeField]
-    GameObject poweredObject;
-    //gameobject that gets activated when this pressure plate is activated, and deactivated when it is deactivated
+    GameObject connectedObject;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
         initZScale = transform.localScale.z;
     }
 
-    public IEnumerator Pressed() {
+    public IEnumerator Activate() {
         float dilation = 1;
         Vector3 newDilation = transform.localScale;
         while (dilation > 0.3f) {
             // contracts to 30% of original size
             newDilation.z = initZScale * dilation;
             transform.localScale = newDilation;
-            dilation -= 0.35f * Time.deltaTime;
-            //takes (0.7 / .35 = 2 seconds)    
+            dilation -= 1.4f * Time.deltaTime;
+            //takes (0.7 / 1.4 = 0.5 seconds)    
             yield return new WaitForSeconds(0.01f);        
         }
         newDilation.z = initZScale * 0.3f;
         transform.localScale = newDilation;
-        SendActivate();
+
+        if (!activated) {
+            SendActivate();
+        } else {
+            SendDeactivate();
+        }
+        activated = !activated;
+
         while (dilation < 1) {
             // returns to 100% of original size
             newDilation.z = initZScale * dilation;
             transform.localScale = newDilation;
-            dilation += 0.7f * Time.deltaTime;
-            //takes (0.7 / 1 = 1 seconds)
+            dilation += 1.4f * Time.deltaTime;
+            //takes (0.7 / 1.4 = 0.5 seconds)
             yield return new WaitForSeconds(0.01f);             
         }
         newDilation.z = initZScale;
@@ -44,13 +51,13 @@ public class Button : MonoBehaviour
     }
 
     void SendActivate() {
-        Debug.Log("button activated");
-        poweredObject.SendMessage("Activate");
+        //Debug.Log("button activated");
+        connectedObject.SendMessage("Activate");
     }
 
     void SendDeactivate() {
-        Debug.Log("button has been deactivated");
-        poweredObject.SendMessage("Deactivate");
+        //Debug.Log("button has been deactivated");
+        connectedObject.SendMessage("Deactivate");
     }
 
 }
