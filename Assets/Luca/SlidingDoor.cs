@@ -2,49 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class SlidingDoor : MonoBehaviour
 {
 
-    Rigidbody rb;
-    float doorForce = 10f;
-    //force with which door closes
-    float initY;
-    float slideDistance;
-    Coroutine doorMovement;
+    [SerializeField] bool setOpen, setClosed, startOpen;
+    [SerializeField] Vector3 openPos, closePos;
+    bool opening, closing;
+    bool open;
 
-    void Start() {
-        rb = GetComponent<Rigidbody>();
-        initY = transform.localPosition.y;
-        slideDistance = GetComponent<MeshRenderer>().bounds.size.y;
+    private void Update()
+    {
+
+        if (setOpen) {
+            setOpen = false;
+            openPos = transform.position;
+        }
+
+        if (setClosed) {
+            setClosed = false;
+            closePos = transform.position;
+        }
+
+        if (!Application.isPlaying) return;
+
+        var targetPos = transform.position;
+        if (opening) targetPos = openPos;
+        else if (closing) targetPos = closePos;
+
+        if (targetPos == transform.position || (targetPos != openPos && targetPos != closePos) ) return;
+        transform.position = Vector3.Lerp(transform.position, targetPos, 0.025f);
+        if (Vector3.Distance(transform.position, targetPos) <= 0.01f) {
+            opening = closing = false;
+            open = targetPos == openPos;
+        }
     }
 
-    public IEnumerator CloseDoor() {
-        while (Mathf.Abs(transform.localPosition.y - initY) > 0.1f) {
-            rb.AddForce(-transform.up * doorForce);
-            yield return new WaitForSeconds(0.01f);
-        }
-        rb.velocity = new Vector3(0, 0, 0);
-        transform.localPosition = new Vector3(transform.localPosition.x, initY, transform.localPosition.z);
-        yield return null;
+    private void Start()
+    {
+        if (!startOpen) Close();
+        else Open();
     }
 
-    public IEnumerator OpenDoor() {
-        while (Mathf.Abs(transform.localPosition.y - initY - slideDistance) > 0.1f) {
-            rb.AddForce(transform.up * doorForce);
-            yield return new WaitForSeconds(0.01f);
-        }
-        rb.velocity = new Vector3(0, 0, 0);
-        transform.localPosition = new Vector3(transform.localPosition.x, initY + slideDistance, transform.localPosition.z);
-        yield return null;
+    void Open()
+    {
+        opening = true;
+        closing = false;
+    }
+
+    void Close()
+    {
+        closing = true;
+        opening = false;
+    }
+
+    void Toggle()
+    {
+        if (open) Close();
+        else Open();
     }
 
     void Activate() {
-        if (doorMovement != null) { StopCoroutine(doorMovement); }
-        doorMovement = StartCoroutine(OpenDoor());
-    }
-
-    void Deactivate() {
-        if (doorMovement != null) { StopCoroutine(doorMovement); }
-        doorMovement = StartCoroutine(CloseDoor());
+        Toggle();
     }
 }

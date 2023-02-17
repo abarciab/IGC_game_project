@@ -43,11 +43,11 @@ public class PressurePlate : MonoBehaviour
 
     void SendActivate() {
         activated = true;
-        poweredObject.SendMessage("Activate");
+        poweredObject?.SendMessage("Activate");
     }
 
     void SendDeactivate() {
         activated = false;
-        poweredObject.SendMessage("Deactivate");
+        poweredObject?.SendMessage("Deactivate", SendMessageOptions.DontRequireReceiver);
     }
 }

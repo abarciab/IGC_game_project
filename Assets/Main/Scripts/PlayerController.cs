@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        GameManager.instance.player = gameObject;
         rb = GetComponent<Rigidbody>();
         mouseLocked = true;
     }

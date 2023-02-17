@@ -9,7 +9,7 @@ public class Button : MonoBehaviour
     bool activated = false;
 
     [SerializeField]
-    GameObject connectedObject;
+    List<GameObject> connectedObject = new List<GameObject>();
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -51,13 +51,12 @@ public class Button : MonoBehaviour
     }
 
     void SendActivate() {
-        //Debug.Log("button activated");
-        connectedObject.SendMessage("Activate");
+        foreach(var c in connectedObject) c.SendMessage("Activate", SendMessageOptions.DontRequireReceiver);
     }
 
     void SendDeactivate() {
         //Debug.Log("button has been deactivated");
-        connectedObject.SendMessage("Deactivate");
+        foreach (var c in connectedObject) c.SendMessage("Deactivate", SendMessageOptions.DontRequireReceiver);
     }
 
 }
