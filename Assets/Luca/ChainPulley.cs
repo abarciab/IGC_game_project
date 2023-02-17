@@ -10,11 +10,11 @@ public class ChainPulley : MonoBehaviour
     public GameObject pulleyLinkPrefab;
 
     [SerializeField]
-    float chainMoveSpeed = 0.05f;    
+    private float chainMoveSpeed = 0.05f;    
     [SerializeField]
-    float chainLength = 5f;
+    private float chainLength = 2f;
     [SerializeField]
-    float chainCount = 0;
+    private float chainCount = 0;
 
     private List<GameObject> chainList = new List<GameObject>();
     int nameCounter = 0;
@@ -24,6 +24,7 @@ public class ChainPulley : MonoBehaviour
     void Start()
     {
         InitChains();
+        Deactivate();
     }
 
     // Update is called once per frame
@@ -44,14 +45,14 @@ public class ChainPulley : MonoBehaviour
         foreach (Transform child in primaryChainsWrapper.transform) {
             chainList.Add(child.gameObject);
         }
+
     }
 
     IEnumerator MovePrimaryChainsUp() {
-        while(true) {
+        while(-chainCount != chainLength) {
             primaryChainsWrapper.transform.localPosition = new Vector3(primaryChainsWrapper.transform.localPosition.x, primaryChainsWrapper.transform.localPosition.y + chainMoveSpeed, primaryChainsWrapper.transform.localPosition.z);
             if(chainList[0].transform.position.y >= pulleyTop.transform.position.y){
                 chainCount--;
-                if (-chainCount == chainLength) { break; }
                 Destroy(chainList[0]);
                 chainList.RemoveAt(0);
                 GameObject newChain = GameObject.Instantiate(pulleyLinkPrefab, primaryChainsWrapper.transform);
@@ -60,17 +61,16 @@ public class ChainPulley : MonoBehaviour
                 newChain.name = "chain" + nameCounter;
                 nameCounter++;
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
         yield return null;
     }
 
     IEnumerator MovePrimaryChainsDown() {
-        while(true) {
+        while(chainCount != chainLength) {
             primaryChainsWrapper.transform.localPosition = new Vector3(primaryChainsWrapper.transform.localPosition.x, primaryChainsWrapper.transform.localPosition.y - chainMoveSpeed * 3, primaryChainsWrapper.transform.localPosition.z);
             if(chainList[chainList.Count - 1].transform.position.y <= pulleyBottom.transform.position.y){
                 chainCount++;
-                if (chainCount == chainLength) { break; }
                 Destroy(chainList[chainList.Count - 1]);
                 chainList.RemoveAt(chainList.Count - 1);
                 GameObject newChain = GameObject.Instantiate(pulleyLinkPrefab, primaryChainsWrapper.transform);
@@ -79,22 +79,28 @@ public class ChainPulley : MonoBehaviour
                 newChain.name = "chain" + nameCounter;
                 nameCounter++;
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
         yield return null;
     }
 
 
     void Activate() {
-        if (coroutine != null) { StopCoroutine(coroutine); }
-        coroutine = MovePrimaryChainsUp();
-        StartCoroutine(coroutine);
+        //print("activate");
+        if (coroutine != MovePrimaryChainsUp()) {
+            if (coroutine != null) { StopCoroutine(coroutine); }
+            coroutine = MovePrimaryChainsUp();
+            StartCoroutine(coroutine);
+        }
     }
 
     void Deactivate() {
-        if (coroutine != null) { StopCoroutine(coroutine); }
-        coroutine = MovePrimaryChainsDown();
-        StartCoroutine(coroutine);
+        //print("deactivate");
+        if (coroutine != MovePrimaryChainsDown()) {
+            if (coroutine != null) { StopCoroutine(coroutine); }
+            coroutine = MovePrimaryChainsDown();
+            StartCoroutine(coroutine);
+        }
     }
 
     void Freeze() {
